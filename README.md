@@ -1,5 +1,50 @@
 # AI Capacity Planning System
 
+<!-- project-guide:start -->
+## Project guide
+
+[Project architecture](PROJECT_ARCHITECTURE.md) · [Interview questions and answers](INTERVIEW_QA.md)
+
+Use the architecture document for the component diagram, implementation boundaries, and verification entry points. The interview guide includes source-backed answers and project walkthroughs.
+
+### Implementation map
+
+| Component | Responsibility |
+| --- | --- |
+| [`src/capacity/main.py`](src/capacity/main.py) | HTTP handlers: `GET /healthz`, `POST /forecast` |
+| [`src/capacity/ops.py`](src/capacity/ops.py) | HTTP handlers: `GET /readyz`, `POST /workspaces`, `GET /workspaces`, `POST /workspaces/{workspace_id}/jobs`, `GET /jobs/{job_id}` |
+| [`src/capacity/forecast.py`](src/capacity/forecast.py) | Functions: `forecast` |
+| [`requirements.txt`](requirements.txt) | Implementation or supporting configuration |
+| [`src/capacity/__init__.py`](src/capacity/__init__.py) | Implementation or supporting configuration |
+| [`Dockerfile`](Dockerfile) | Container build/service configuration |
+| [`Makefile`](Makefile) | Implementation or supporting configuration |
+| [`docker-compose.yml`](docker-compose.yml) | Container build/service configuration |
+| [`tests/test_forecast.py`](tests/test_forecast.py) | Executable checks and regression examples |
+| [`tests/test_ops.py`](tests/test_ops.py) | Executable checks and regression examples |
+| [`.github/workflows/ci.yml`](.github/workflows/ci.yml) | GitHub Actions job definitions |
+| [`README.md`](README.md) | Project explanations or operating notes |
+| [`docs/ARCHITECTURE.md`](docs/ARCHITECTURE.md) | Project explanations or operating notes |
+
+### Local setup and verification
+
+From the repository root (the commands follow the checked-in manifests):
+
+```bash
+python3 -m venv .venv
+source .venv/bin/activate
+python -m pip install -r requirements.txt
+python -m pytest -q
+```
+
+To serve the FastAPI application locally, install the server separately if it is not already available:
+
+```bash
+python -m pip install uvicorn
+PYTHONPATH=src python -m uvicorn capacity.main:app --reload
+```
+
+<!-- project-guide:end -->
+
 Level: 15 — AI + DevOps + SRE
 
 Skills: Python, trailing utilization
